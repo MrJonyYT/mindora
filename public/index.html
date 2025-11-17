@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Mindora - Трекер настроения</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Проверка мобильного устройства -->
+  <div id="desktop-warning" class="desktop-warning">
+    <div class="warning-content">
+      <h2>📱 Только для мобильных устройств</h2>
+      <p>Это приложение оптимизировано для смартфонов. Пожалуйста, откройте его на мобильном устройстве или используйте инструменты разработчика для эмуляции мобильного устройства.</p>
+    </div>
+  </div>
+
+  <!-- Навигация -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-header">
+        <h1 class="logo">🌙 Mindora</h1>
+        <div class="user-info">
+          <span id="username-display" class="username"></span>
+          <button id="theme-toggle" class="theme-toggle" title="Переключить тему">🌓</button>
+          <button id="logout-btn" class="logout-btn" title="Выйти">🚪</button>
+        </div>
+      </div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="mood">Настроение</button>
+        <button class="nav-tab" data-tab="support">Поддержка</button>
+        <button class="nav-tab" data-tab="journal">Дневник</button>
+        <button class="nav-tab" data-tab="stats">Статистика</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="main-content">
+    <!-- Вкладка: Трекер настроения -->
+    <section id="mood-tab" class="tab-content active">
+      <div class="card">
+        <h2>Как вы себя чувствуете?</h2>
+        
+        <div class="mood-selector">
+          <label>Настроение</label>
+          <div class="emoji-grid">
+            <button class="emoji-btn" data-mood="1" data-emoji="😢">😢</button>
+            <button class="emoji-btn" data-mood="2" data-emoji="😔">😔</button>
+            <button class="emoji-btn" data-mood="3" data-emoji="😐">😐</button>
+            <button class="emoji-btn" data-mood="4" data-emoji="🙂">🙂</button>
+            <button class="emoji-btn" data-mood="5" data-emoji="😊">😊</button>
+          </div>
+          <div class="mood-labels">
+            <span>Очень плохо</span>
+            <span>Хорошо</span>
+          </div>
+        </div>
+
+        <div class="energy-selector">
+          <label>Уровень энергии</label>
+          <input type="range" id="energy-slider" min="1" max="5" value="3" step="1">
+          <div class="slider-labels">
+            <span>Очень низкий</span>
+            <span>Очень высокий</span>
+          </div>
+          <div class="energy-display">
+            <span id="energy-value">3</span>
+          </div>
+        </div>
+
+        <div class="note-input">
+          <label for="mood-note">Заметка (необязательно)</label>
+          <textarea id="mood-note" placeholder="Что повлияло на ваше настроение?"></textarea>
+        </div>
+
+        <button id="save-mood-btn" class="btn btn-primary">Сохранить</button>
+      </div>
+
+      <div class="card">
+        <h3>Последние записи</h3>
+        <div id="recent-moods" class="moods-list">
+          <p class="loading">Загрузка...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Вкладка: Психологическая поддержка -->
+    <section id="support-tab" class="tab-content">
+      <div class="card">
+        <h2>Психологическая поддержка</h2>
+        <div class="category-filter">
+          <button class="filter-btn active" data-category="">Все</button>
+          <button class="filter-btn" data-category="Техники релаксации">Релаксация</button>
+          <button class="filter-btn" data-category="Управление тревогой">Тревога</button>
+          <button class="filter-btn" data-category="Позитивное мышление">Позитив</button>
+          <button class="filter-btn" data-category="Здоровый образ жизни">Здоровье</button>
+        </div>
+      </div>
+      <div id="support-articles" class="articles-list">
+        <p class="loading">Загрузка статей...</p>
+      </div>
+    </section>
+
+    <!-- Вкладка: Дневник -->
+    <section id="journal-tab" class="tab-content">
+      <div class="card">
+        <h2>Новая запись</h2>
+        <input type="text" id="journal-title" placeholder="Заголовок (необязательно)" class="input">
+        <textarea id="journal-content" placeholder="Опишите ваши мысли и чувства..." class="textarea"></textarea>
+        <button id="save-journal-btn" class="btn btn-primary">Сохранить запись</button>
+      </div>
+
+      <div class="card">
+        <h3>Мои записи</h3>
+        <div id="journal-entries" class="journal-list">
+          <p class="loading">Загрузка...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Вкладка: Статистика -->
+    <section id="stats-tab" class="tab-content">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2 style="margin: 0;">Статистика настроения</h2>
+          <button id="export-data-btn" class="btn btn-secondary" style="padding: 8px 16px; font-size: 14px;">📥 Экспорт данных</button>
+        </div>
+        <div class="period-selector">
+          <button class="period-btn active" data-period="7">7 дней</button>
+          <button class="period-btn" data-period="14">14 дней</button>
+          <button class="period-btn" data-period="30">30 дней</button>
+        </div>
+        <div id="stats-chart" class="stats-chart">
+          <canvas id="mood-chart"></canvas>
+        </div>
+        <div id="stats-info" class="stats-info"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
